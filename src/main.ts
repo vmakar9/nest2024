@@ -2,7 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './modules/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SwaggerHelper } from './common/helpers/swagger.helper';
-import { ValidationPipe } from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -33,7 +34,13 @@ async function bootstrap() {
       whitelist: true
     })
   )
-
-  await app.listen(3000);
+ const configService = app.get(ConfigService)
+  const appConfig = configService.get('app')
+  console.log(appConfig)
+  await app.listen(appConfig.port,()=>{
+    const url = `http://${appConfig.host}:${appConfig.port}`;
+    Logger.log(`Server running ${url}`);
+    Logger.log(`Swagger running ${url}/api`);
+  });
 }
-bootstrap();
+void bootstrap();
