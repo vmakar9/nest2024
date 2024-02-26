@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable, UnprocessableEntityException} from '@nestjs/common';
 import { CreateUserDto } from '../models/dto/request/create-user.dto';
 import { UpdateUserDto } from '../models/dto/request/update-user.dto';
 
@@ -13,6 +13,7 @@ export class UserService {
   }
 
   findOne(id: number) {
+    throw new UnprocessableEntityException('User not found');
     return `This action returns a #${id} user`;
   }
 

@@ -4,6 +4,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { SwaggerHelper } from './common/helpers/swagger.helper';
 import { Logger, ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import {GlobalExceptionFilter} from "./common/exeptions/global-exeption.filter";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -26,7 +27,7 @@ async function bootstrap() {
       docExpansion: 'list',
     },
   });
-
+app.useGlobalFilters(new GlobalExceptionFilter)
   app.useGlobalPipes(
     new ValidationPipe({
       transform:true,
