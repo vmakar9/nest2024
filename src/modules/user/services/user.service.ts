@@ -1,9 +1,13 @@
 import {Injectable, UnprocessableEntityException} from '@nestjs/common';
 import { CreateUserDto } from '../models/dto/request/create-user.dto';
 import { UpdateUserDto } from '../models/dto/request/update-user.dto';
+import {UserRepository} from "../../repository/services/user.repository";
 
 @Injectable()
 export class UserService {
+
+  constructor(private readonly userRepository: UserRepository) {
+  }
   create(createUserDto: CreateUserDto) {
     return 'This action adds a new user';
   }
